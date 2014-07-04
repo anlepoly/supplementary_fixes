@@ -36,8 +36,8 @@ def optionalOutputData(myBugAnalysis):
     '''outputsingle(projectname, bugDic, experienceDic)'''
 
     (shorttimeDic, longtimeDic) = myBugAnalysis.intervalStatistics()
-    #myBugAnalysis.commitStatistics()
-    #myBugAnalysis.userStatistics()
+    myBugAnalysis.commitStatistics()
+    myBugAnalysis.userStatistics()
     return 
 
 def showPercentage(a, b):
@@ -86,8 +86,8 @@ def outputarff(stat_type, attempt, day):
 
 
 if(__name__ == '__main__'):
-    #   Switch project here (if project has no available database, "hasDB" should be set to "False")
-    project, hasDB = 'webkit', True
+    #   Switch project here
+    project, hasDB = 'swt', True
     
     print 'Analysed project:', project, '\n'    
     myBugAnalysis = BugAnalysis(project, hasDB)    

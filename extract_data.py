@@ -42,9 +42,7 @@ class BugAnalysis():
             dbname = 'Mozilla_Bugzilla'
         elif(self.projectname == 'netbeans'):
             dbname = 'Netbeans_Bugzilla'
-        
-        #   You should set your SQL host, username and password here   
-        database = MySQLdb.connect(host = 'localhost', user = 'user_name', passwd = 'your_passwd', db = dbname, port = 3306)
+        database = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'poly', db = dbname, port = 3306)
         return database.cursor()
     
     
@@ -633,6 +631,61 @@ class BugAnalysis():
                 invalidSingleCnt += 1
         print 'invalid single reopened bugs:', invalidSingleCnt, showPercentage(invalidSingleCnt, len(self.singleReopened))
         return
+
+    '''def outputRiskyByDaysArff(self):
+        for bugID in self.bugDic:
+            vlist = self.bugDic[bugID]
+            for v in vlist:
+                interval = computeInterval(vlist) 
+                if(interval < 24):
+                    flag = 'agile'
+                else:
+                    flag = 'long'
+                if(v != vlist[0]):
+                    formattingArff(v, flag, self.experienceDic)
+        return
+
+    def outputRiskyByTimesArff(self):
+        for bugID in self.bugDic:
+            vlist = self.bugDic[bugID]
+            interval = computeInterval(vlist)
+            occurrence = {}
+        
+            if(len(vlist) > 1):
+                for v in vlist:
+                    occurrence[v['user']] = True
+            
+                    if(v['bug'] in reopeningSet):
+                        flag = 'risky'
+                    else:
+                        flag = 'safe'
+            
+                    if(len(vlist) > 3):
+                        flag = 'risky'
+                    else:
+                        flag = 'safe'
+                    if(v != vlist[0]):
+                        formattingArff(v, flag, experienceDic)
+                
+                    if(v != vlist[0]):
+                        formattingArff(v, flag, self.experienceDic)
+        return
+
+
+    def outputRiskyByUsersArff(self):
+        for bugID in self.bugDic:
+            vlist = self.bugDic[bugID]    
+            occurrence = {}
+            for v in vlist:
+                occurrence[v['user']] = True
+            for v in vlist:
+                if(len(occurrence) > 1):
+                    flag = 'risky'
+                else:
+                    flag = 'safe'
+                if(v != vlist[0]):
+                    formattingArff(v, flag, self.experienceDic)
+        return'''
         
 def showPercentage(a, b):
     return '(' + str(round(a/b*100, 3)) + '%' + ')'
