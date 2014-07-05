@@ -13,7 +13,7 @@ jdt.core <- as.table(rbind(c(153, 405-153), c(81, 302-81)))
 dimnames(jdt.core) <- list(occurence = c('single', 'multi'), validity = c('invalid', 'valid'))
 
 # check significance for Platform SWT between single and multi reopening
-platform.swt <- as.table(rbind(c(177, 355-177), c(314, 359-91)))
+platform.swt <- as.table(rbind(c(173, 352-173), c(84, 301-84)))
 dimnames(platform.swt) <- list(occurence = c('single', 'multi'), validity = c('invalid', 'valid'))
 
 # check significance for Webkit between single and multi reopening
