@@ -13,13 +13,14 @@
 - If you analyse a new project, you should put its commit log file in the "commit_log" folder
    
 #Data format
-Our statistical script can only handle data with the format in our examples, i.e.
+Our statistical script can only handle data with the format in our examples, i.e.:
 - If you use a new git project:    
-   you should output its commit log by this command "git log --pretty=format:'%H, %an, %ai, %s' -—shortstat > your_file_path"    
-   its commit log file should leave the first line as blank
+   you should output its commit log by this command:  
+   *git log --pretty=format:'%H, %an, %ai, %s' -—shortstat > your_file_path*   
+   the commit log file should leave the first line as blank
 - If you use a new mercurial project:   
    you should output churn and changed files information    
-   its commit log file should not contain any blank line
+   the commit log file should not contain any blank line
 
 #Data description
 - "commit_log" folder contains commit logs for all five studied projects
