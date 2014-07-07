@@ -14,11 +14,11 @@
    
 #Data format
 Our statistical script can only handle data with the format in our examples, i.e.
-- If you use a new git project:
-   you should output its commit log by this command "git log --pretty=format:'%H, %an, %ai, %s' -—shortstat > your_file_path"
+- If you use a new git project:</br>
+   you should output its commit log by this command "git log --pretty=format:'%H, %an, %ai, %s' -—shortstat > your_file_path" </br>
    its commit log file should leave the first line as blank
-- If you use a new mercurial project:
-   you should output churn and changed files information
+- If you use a new mercurial project:</br>
+   you should output churn and changed files information </br>
    its commit log file should not contain any blank line
 
 #Data description
