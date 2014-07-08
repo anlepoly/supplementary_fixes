@@ -4,7 +4,7 @@
 - MySQL
 
 #How to use the script
-- First of all, you should set your database's host, user and password (in line 45 of "extract_data.py")
+- First of all, please set your database's host, user and password (in line 45 of "extract_data.py")
 - Run "output_data.py" to show statistical results in each project and output metrics to csv files
 - In "output_data.py", you can switch project in line 90. If the project has no sql file, you should set the variable "hasDB" to False.
 - The R code and metrics files are in the folder "csv_data": 
@@ -15,11 +15,11 @@
 #Data format
 Our statistical script can only handle data with the format in our examples, i.e.:
 - If you use a new git project:    
-   you should output its commit log by this command:  
+   please output its commit log by this command:  
    *git log --pretty=format:'%H, %an, %ai, %s' -—shortstat > your_file_path*   
    the commit log file should leave the first line as blank
 - If you use a new mercurial project:   
-   you should output churn and changed files information    
+   please output churn and changed files information    
    the commit log file should not contain any blank line
 
 #Data description

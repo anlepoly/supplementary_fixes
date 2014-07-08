@@ -1,10 +1,8 @@
 from __future__ import division
-import os, sys
+import os
 import re
-import datetime
 import dateutil.parser
 import pytz
-import time
 import csv
 import MySQLdb
 import math
@@ -42,7 +40,9 @@ class BugAnalysis():
             dbname = 'Mozilla_Bugzilla'
         elif(self.projectname == 'netbeans'):
             dbname = 'Netbeans_Bugzilla'
-        database = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'poly', db = dbname, port = 3306)
+            
+        #   Please set your own database host, user and password here
+        database = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'password', db = dbname, port = 3306)
         return database.cursor()
     
     
@@ -147,7 +147,7 @@ class BugAnalysis():
         regex2 = re.search(r'(b=|#)[0-9]+', commentTxt)
         regex3 = re.search(r'[0-9]+\b', commentTxt, re.IGNORECASE)
         regex4 = re.search(r'\b[0-9]+', commentTxt)
-        other = re.search(r'[0-9]+', commentTxt)
+        #other = re.search(r'[0-9]+', commentTxt)
         if(regex1):
             bugID = re.sub(r'[^0-9]+', r'', regex1.group(0))
             return str(int(bugID))
@@ -482,7 +482,7 @@ class BugAnalysis():
                 invalidTime = None
             else:
                 invalidTime = self.parseTime(item[2] + ' +0000').replace(tzinfo=None)               
-            return item[3:9] + [invalidTime]
+            return item[3:8] + [invalidTime]
         else:
             invalidTime = None       
             self.cursor.execute('SELECT bug_when, added FROM bugs_activity WHERE bug_id = ' + bugID + ' ORDER BY bug_when')
@@ -492,7 +492,7 @@ class BugAnalysis():
                     invalidTime = r[0]
                     break
        
-            self.cursor.execute('SELECT bug_severity, priority, rep_platform, op_sys, short_desc FROM bugs WHERE bug_id = ' + bugID)
+            self.cursor.execute('SELECT bug_severity, priority, rep_platform, short_desc FROM bugs WHERE bug_id = ' + bugID)
             results = self.cursor.fetchall()
             if(len(results)):
                 tpl = results[0]
@@ -502,12 +502,12 @@ class BugAnalysis():
                 cc_cnt = 0
                 if(len(cc_result)):
                     cc_cnt = cc_result[0][0]
-                return [tpl[0], tpl[1], tpl[2], tpl[3], title_size, cc_cnt, invalidTime]
+                return [tpl[0], tpl[1], tpl[2], title_size, cc_cnt, invalidTime]
             else:
                 return None
     
     #   Write metrics into csv
-    def formattingArff(self, flag, v, attemptCnt, fixTime, userCnt, bugzilla_metrics, invalidStatus):        
+    def formattingCSV(self, flag, v, attemptCnt, fixTime, userCnt, bugzilla_metrics, invalidStatus):        
         #   bug ID
         bugID = v['bug']
        
@@ -533,11 +533,6 @@ class BugAnalysis():
         #   keywords
         keyword = self.hasKeyword(v['comment'])
         
-        #   developers
-        committer = v['user']
-        reporter = self.reporterExpDic[bugID][0]
-        assignee = self.assigneeExpDic[bugID][0]
-
         #   experience
         committerExp = v['committer_exp']
         reporterExp = self.reporterExpDic[bugID][1]
@@ -551,20 +546,20 @@ class BugAnalysis():
         #   write one row if the bug is in the database period
         if('bug' in v):
             self.csv_writer.writerow([bugID, week, month, yearday, hour, day, commitSize, changedFiles, churn, 
-                committer, reporter, assignee, committerExp, reporterExp, assigneeExp, keyword, attemptCnt, fixTime, \
-                userCnt, invalidStatus] + bugzilla_metrics + [flag])                
+                committerExp, reporterExp, assigneeExp, keyword, fixTime, \
+                invalidStatus] + bugzilla_metrics + [flag])                
         return
     
     #   Sort dictionaries by time
     def sortTime(self, v):
         return v['time']
     
-    #   Prepare eutput .arff file for reopened bugs in order to be analysed by WEKA
-    def outputReopenedArff(self, attempt, day):        
+    #   Prepare output .arff file for reopened bugs in order to be analysed by WEKA
+    def outputReopenedCSV(self, attempt, day):        
         print 'Writing metrics to csv file ...'
         self.csv_writer.writerow(['bugID', 'week', 'month', 'yearday', 'hour', 'day', 'commit_size', 'changed_file', 'churn', \
-            'committer', 'reporter', 'assignee', 'committer_exp', 'reporter_exp', 'assignee_exp', 'keyword', 'attempt', 'fix_time',\
-            'user_cnt', 'invalid_status', 'severity', 'priority', 'platform', 'op_sys', 'title_size', 'cc_count', 'reopened'])
+            'committer_exp', 'reporter_exp', 'assignee_exp', 'keyword', 'fix_time', 'invalid_status', \
+            'severity', 'priority', 'platform', 'title_size', 'cc_count', 'reopened'])
         
         for bugID in self.suppleDic:
             vlist = self.bugDic[bugID]
@@ -572,14 +567,6 @@ class BugAnalysis():
             if(len(vlist) == 1):
                 print bugID
         
-            if(attempt > 0):        #   Output arff by more than ?? attempts
-                if(len(vlist) <= attempt):
-                    continue;
-            elif(day > 0):          #   Output arff by more than ?? days
-                interval = computeInterval(vlist)
-                if(interval/24 <= day):
-                    continue;
-
             #   bugzilla metrics
             bugzilla_metrics = self.bugzillaMetrics(bugID)                  
             if(bugzilla_metrics):
@@ -605,25 +592,10 @@ class BugAnalysis():
                     if(invalidTime and invalidTime <= v['time'].replace(tzinfo=None)):
                         invalidStatus = 'YES'
                           
-                    self.formattingArff(flag, v, attemptCnt, fixTime, userCnt, bugzilla_metrics[:-1], invalidStatus) 
+                    self.formattingCSV(flag, v, attemptCnt, fixTime, userCnt, bugzilla_metrics[:-1], invalidStatus) 
                     attemptCnt += 1
         return
 
-    #   Prepare output .arff file for suppl fixes  
-    def outputSupplArff(self):
-        for bugID in self.bugDic:
-            vlist = self.bugDic[bugID]
-            for v in vlist:
-                if(len(vlist) > 1):
-                    flag = 'type-II'
-                    if(v == vlist[0]):
-                        continue                        
-                else:
-                    flag = 'type-I'
-            
-                formattingArff(v ,flag, self.experienceDic)
-        return
-    
     def invalidSingleReopened(self):
         invalidSingleCnt = 0
         for bugID in self.bugDic:
@@ -631,61 +603,6 @@ class BugAnalysis():
                 invalidSingleCnt += 1
         print 'invalid single reopened bugs:', invalidSingleCnt, showPercentage(invalidSingleCnt, len(self.singleReopened))
         return
-
-    '''def outputRiskyByDaysArff(self):
-        for bugID in self.bugDic:
-            vlist = self.bugDic[bugID]
-            for v in vlist:
-                interval = computeInterval(vlist) 
-                if(interval < 24):
-                    flag = 'agile'
-                else:
-                    flag = 'long'
-                if(v != vlist[0]):
-                    formattingArff(v, flag, self.experienceDic)
-        return
-
-    def outputRiskyByTimesArff(self):
-        for bugID in self.bugDic:
-            vlist = self.bugDic[bugID]
-            interval = computeInterval(vlist)
-            occurrence = {}
-        
-            if(len(vlist) > 1):
-                for v in vlist:
-                    occurrence[v['user']] = True
-            
-                    if(v['bug'] in reopeningSet):
-                        flag = 'risky'
-                    else:
-                        flag = 'safe'
-            
-                    if(len(vlist) > 3):
-                        flag = 'risky'
-                    else:
-                        flag = 'safe'
-                    if(v != vlist[0]):
-                        formattingArff(v, flag, experienceDic)
-                
-                    if(v != vlist[0]):
-                        formattingArff(v, flag, self.experienceDic)
-        return
-
-
-    def outputRiskyByUsersArff(self):
-        for bugID in self.bugDic:
-            vlist = self.bugDic[bugID]    
-            occurrence = {}
-            for v in vlist:
-                occurrence[v['user']] = True
-            for v in vlist:
-                if(len(occurrence) > 1):
-                    flag = 'risky'
-                else:
-                    flag = 'safe'
-                if(v != vlist[0]):
-                    formattingArff(v, flag, self.experienceDic)
-        return'''
         
 def showPercentage(a, b):
     return '(' + str(round(a/b*100, 3)) + '%' + ')'

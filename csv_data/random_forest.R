@@ -3,7 +3,7 @@ library(cvTools)
 set.seed(199)
 
 #	Initialize variables
-project = 'jdt'
+project = 'webkit'
 model = 'randomForest'
 doVIF = 'NO'
 tree_number = 50

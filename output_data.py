@@ -75,19 +75,15 @@ def outputdata(myBugAnalysis):
     return
         
 
-def outputarff(stat_type, attempt, day):
-    if(stat_type == 'reop_all'):
-        myBugAnalysis.outputReopenedArff()  # Output result of reopend over all
-    elif(stat_type == 'reop_suppl'):
-        myBugAnalysis.outputReopenedArff(0, 0)  # Output result of reopened over suppl
-    elif(stat_type == 'suppl_all'):
-        myBugAnalysis.outputSupplArff()     # Oxutput result of suppl over all
+def outputCSV():
+    # Output result of reopened over supplementary    
+    myBugAnalysis.outputReopenedCSV(0, 0)  
     return
 
 
 if(__name__ == '__main__'):
     #   Switch project here
-    project, hasDB = 'swt', True
+    project, hasDB = 'jdt', True
     
     print 'Analysed project:', project, '\n'    
     myBugAnalysis = BugAnalysis(project, hasDB)    
@@ -99,6 +95,5 @@ if(__name__ == '__main__'):
     #optionalOutputData(myBugAnalysis)
     
     #   Output result
-    stat_type, attempt, day = 'reop_suppl', 0, 0
-    outputarff(stat_type, attempt, day)
+    outputCSV()
     outputdata(myBugAnalysis)
