@@ -1,10 +1,10 @@
 library(cvTools)
 #	Set random seed 
-set.seed(199)
+set.seed(1)
 
 #	Initialize variables
 project = 'webkit'
-model = 'randomForest'
+model = 'glm'
 doVIF = 'NO'
 tree_number = 50
 
