@@ -53,7 +53,7 @@ for(i in 1:k) {
 		library(randomForest)		
 		fit <- randomForest(formula, data = trainset, ntree = tree_number, mtry = 5, importance = TRUE)
 	  	testset[, 'predict'] <- predict(fit, newdata = testset)
-		varImpPlot(fit, cex = 1, main = project, main.cex = 1)
+		#varImpPlot(fit, cex = 1, main = project, main.cex = 1)
 	} else if(model == 'cforest') {
 		library(party)
 		data.controls <- cforest_unbiased(ntree = tree_number, mtry = 5)

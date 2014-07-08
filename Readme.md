@@ -1,6 +1,6 @@
-#Requirement
-- Python 2.7
-- R 3.1
+#Requirements
+- Python 2.7 or newer
+- R 3.1 or newer
 - MySQL
 
 #How to use the script
@@ -16,7 +16,7 @@
 Our statistical script can only handle data with the format in our examples, i.e.:
 - If you use a new git project:    
    please output its commit log by this command:  
-   *git log --pretty=format:'%H, %an, %ai, %s' -—shortstat > your_file_path*   
+   *git log --pretty=format:'%H, %an, %ai, %s' --shortstat > your_file_path*   
    the commit log file should leave the first line as blank
 - If you use a new mercurial project:   
    please output churn and changed files information    
@@ -24,7 +24,11 @@ Our statistical script can only handle data with the format in our examples, i.e
 
 #Data description
 - "commit_log" folder contains commit logs for all five studied projects
-- "bugzilla_metrics" only contains Webkit's Bugzilla metrics extracted from Bugzilla website (because we don't have Webkit's Bugzilla database)
+- "bugzilla_metrics" folder only contains Webkit's Bugzilla metrics extracted from Bugzilla website (because we don't have Webkit's Bugzilla database)
+- "csv_data" folder contains R code and prediction metrics
+
+#Maintenance
+I will update new data and new version of the scripts
 
 #For any questions
 Please send email to le.an@polymtl.ca

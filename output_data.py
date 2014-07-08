@@ -83,7 +83,7 @@ def outputCSV():
 
 if(__name__ == '__main__'):
     #   Switch project here
-    project, hasDB = 'jdt', True
+    project, hasDB = 'netbeans', True
     
     print 'Analysed project:', project, '\n'    
     myBugAnalysis = BugAnalysis(project, hasDB)    

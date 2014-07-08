@@ -40,9 +40,7 @@ class BugAnalysis():
             dbname = 'Mozilla_Bugzilla'
         elif(self.projectname == 'netbeans'):
             dbname = 'Netbeans_Bugzilla'
-            
-        #   Please set your own database host, user and password here
-        database = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'password', db = dbname, port = 3306)
+        database = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'poly', db = dbname, port = 3306)
         return database.cursor()
     
     
@@ -497,7 +495,7 @@ class BugAnalysis():
             if(len(results)):
                 tpl = results[0]
                 title_size = len(tpl[-1].split())
-                self.cursor.execute('SELECT COUNT(DISTINCT bug_id) FROM cc WHERE bug_id = ' + bugID)
+                self.cursor.execute('SELECT COUNT(DISTINCT who) FROM cc WHERE bug_id = ' + bugID)
                 cc_result = self.cursor.fetchall()
                 cc_cnt = 0
                 if(len(cc_result)):
