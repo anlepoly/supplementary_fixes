@@ -1,0 +1,20 @@
+Analysed project: netbeans 
+
+Parsing commit logs ...
+Building bug dictionary ...
+Computing experience ...
+Writing metrics to csv file ...
+
+- 173559 revisions
+- 46663 detected bug fixes
+- 38333 type I fixes (92.1%)
+- 8330 type II fixes (17.9%)
+
+- 41633 bugs reports
+- 3300 type-II bug reports (7.9%)
+- 5681 reopening bug reports (13.6%)
+- 4453 single re-opened reports
+
+- 1753 single invalid reports
+- 278 multi invalid reports
+invalid single reopened bugs: 1753 (39.367%)

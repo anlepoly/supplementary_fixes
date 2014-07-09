@@ -1,0 +1,20 @@
+Analysed project: mozilla 
+
+Parsing commit logs ...
+Building bug dictionary ...
+Computing experience ...
+Writing metrics to csv file ...
+
+- 51500 revisions
+- 32441 detected bug fixes
+- 24429 type I fixes (89.3%)
+- 8012 type II fixes (24.7%)
+
+- 27349 bugs reports
+- 2920 type-II bug reports (10.7%)
+- 2876 reopening bug reports (10.5%)
+- 1659 single re-opened reports
+
+- 390 single invalid reports
+- 105 multi invalid reports
+invalid single reopened bugs: 390 (23.508%)

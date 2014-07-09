@@ -25,7 +25,8 @@ Our statistical script can only handle data with the format in our examples (in 
 #Folder description
 - "commit_log" folder contains commit logs for all five studied projects.
 - "bugzilla_metrics" folder only contains Webkit's Bugzilla metrics extracted from Bugzilla website (because we don't have Webkit's Bugzilla database).
-- "csv_data" folder contains R code and prediction metrics.
+- "csv_data" folder contains R code and prediction metrics.  
+- "console_log" folder provides the console logs of the script "output_data.py" for each project.
 
 #For any questions
 Please send email to le.an@polymtl.ca

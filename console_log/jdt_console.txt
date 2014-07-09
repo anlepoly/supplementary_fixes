@@ -1,0 +1,20 @@
+Analysed project: jdt 
+
+Parsing commit logs ...
+Building bug dictionary ...
+Computing experience ...
+Writing metrics to csv file ...
+
+- 18099 revisions
+- 7744 detected bug fixes
+- 3784 type I fixes (73.1%)
+- 3960 type II fixes (51.1%)
+
+- 5176 bugs reports
+- 1392 type-II bug reports (26.9%)
+- 707 reopening bug reports (13.7%)
+- 405 single re-opened reports
+
+- 153 single invalid reports
+- 81 multi invalid reports
+invalid single reopened bugs: 153 (37.778%)

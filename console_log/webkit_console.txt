@@ -1,0 +1,21 @@
+Analysed project: webkit 
+
+Init bugzilla metrics ...
+Parsing commit logs ...
+Building bug dictionary ...
+Computing experience ...
+Writing metrics to csv file ...
+
+- 152296 revisions
+- 49388 detected bug fixes
+- 38858 type I fixes (89.7%)
+- 10530 type II fixes (21.3%)
+
+- 43326 bugs reports
+- 4468 type-II bug reports (10.3%)
+- 2311 reopening bug reports (5.3%)
+- 968 single re-opened reports
+
+- 880 single invalid reports
+- 208 multi invalid reports
+invalid single reopened bugs: 221 (22.831%)
