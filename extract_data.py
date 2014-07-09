@@ -17,9 +17,7 @@ class BugAnalysis():
         self.reporterExpDic = dict()
         self.assigneeExpDic = dict()
         self.reopeningSet = set()
-        
         self.comitterNumber = set()
-        
         self.invalidSet = set()     #   invalid ID set
         self.multiInvalid = set()   #   invalid report set 
         self.singleInvalid = set()  #   invalid report set
@@ -40,7 +38,8 @@ class BugAnalysis():
             dbname = 'Mozilla_Bugzilla'
         elif(self.projectname == 'netbeans'):
             dbname = 'Netbeans_Bugzilla'
-        database = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'poly', db = dbname, port = 3306)
+        #   Please set the database host, user and password here
+        database = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'your_passwd', db = dbname, port = 3306)
         return database.cursor()
     
     
@@ -594,6 +593,7 @@ class BugAnalysis():
                     attemptCnt += 1
         return
 
+    #   Show invalid-single reopening's number and percentage 
     def invalidSingleReopened(self):
         invalidSingleCnt = 0
         for bugID in self.bugDic:
@@ -601,6 +601,7 @@ class BugAnalysis():
                 invalidSingleCnt += 1
         print 'invalid single reopened bugs:', invalidSingleCnt, showPercentage(invalidSingleCnt, len(self.singleReopened))
         return
-        
+
+#   Show percentage        
 def showPercentage(a, b):
     return '(' + str(round(a/b*100, 3)) + '%' + ')'

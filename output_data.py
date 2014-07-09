@@ -33,8 +33,6 @@ def extractdata(myBugAnalysis):
     return
 
 def optionalOutputData(myBugAnalysis):
-    '''outputsingle(projectname, bugDic, experienceDic)'''
-
     (shorttimeDic, longtimeDic) = myBugAnalysis.intervalStatistics()
     myBugAnalysis.commitStatistics()
     myBugAnalysis.userStatistics()
@@ -83,6 +81,7 @@ def outputCSV():
 
 if(__name__ == '__main__'):
     #   Switch project here
+    #   If the project doesn't have an available database, such as Webkit, please set hasDB = False
     project, hasDB = 'netbeans', True
     
     print 'Analysed project:', project, '\n'    
@@ -92,6 +91,8 @@ if(__name__ == '__main__'):
     dataTuple = extractdata(myBugAnalysis)
 
     #   Output optional data
+    #   If you want to see detailed statistical results (eg., distribution of supplementary fixes and reopened bugs),
+    #   please uncomment the following line
     #optionalOutputData(myBugAnalysis)
     
     #   Output result

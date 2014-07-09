@@ -4,11 +4,11 @@
 - MySQL
 
 #How to use the script
-- First of all, please set your database's host, user and password (in line 45 of "extract_data.py")
+- First of all, please set your database's host, user and password (in line 41 of "extract_data.py")
 - Run "output_data.py" to show statistical results in each project and output metrics to csv files
 - In "output_data.py", you can switch project in line 90. If the project has no sql file, you should set the variable "hasDB" to False.
 - The R code and metrics files are in the folder "csv_data":   
-   "prediction.R" allows you to predict bug reopening with GLM, C5.0, ctree, cforest and randomForest (please set the random seed value before launching the script)
+   "prediction.R" allows you to predict bug reopening with GLM, C5.0, ctree, cforest and randomForest (in line 5, please set the random seed value before launching the script)   
    "chisq+fisher.R" allows you to check significance between single and multi reopening
 - If you analyse a new project, you should put its commit log file in the "commit_log" folder
    

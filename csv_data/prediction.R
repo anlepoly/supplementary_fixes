@@ -1,7 +1,7 @@
 library(cvTools)
 #	Set random seed
 #	Please set a value for the random seed 
-#	(Since the data will be randomly split, different seeds may lead to slightly different results)
+#	(Since the data will be randomly split into 10 folds, different seeds may lead to slightly different results)
 set.seed(seedValue)
 
 #	You can switch projects, models, and whether doing the VIF analysis (eg., Eclipse JDT Core, with GLM and without VIF)
