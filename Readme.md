@@ -22,7 +22,7 @@ Our statistical script can only handle data with the format in our examples (in 
    1. please output churn and changed files information    
    2. the commit log file should not contain any blank line
 
-#Data description
+#Folder description
 - "commit_log" folder contains commit logs for all five studied projects.
 - "bugzilla_metrics" folder only contains Webkit's Bugzilla metrics extracted from Bugzilla website (because we don't have Webkit's Bugzilla database).
 - "csv_data" folder contains R code and prediction metrics.
