@@ -1,11 +1,15 @@
 library(cvTools)
-#	Set random seed 
-set.seed(1)
+#	Set random seed
+#	Please set a value for the random seed 
+#	(Since the data will be randomly split, different seeds may lead to slightly different results)
+set.seed(seedValue)
 
-#	Initialize variables
-project = 'webkit'
+#	You can switch projects, models, and whether doing the VIF analysis (eg., Eclipse JDT Core, with GLM and without VIF)
+project = 'jdt'
 model = 'glm'
 doVIF = 'NO'
+
+#	Initialize tree numbers of Random Forest
 tree_number = 50
 
 print(project)
@@ -15,12 +19,10 @@ dataset <- as.data.frame(read.csv(file = sprintf('stat/%s_stat.csv', project), h
 #selectedset <- dataset[dataset[, 'invalid'] == 'YES', ]
 selectedset <- dataset
 
-
 #	Define modelling formula
 xcol <- c('week', 'month', 'hour', 'day', 'commit_size', 'changed_file', 'churn', 'keyword', 'committer_exp', 'reporter_exp', 
 	'assignee_exp', 'severity', 'priority', 'invalid_status', 'title_size', 'fix_time', 'cc_count', 'platform')
 formula <- as.formula(paste('reopened ~ ', paste(xcol, collapse= '+')))
-
 
 #	VIF analysis
 if(doVIF == 'YES') {
@@ -53,6 +55,7 @@ for(i in 1:k) {
 		library(randomForest)		
 		fit <- randomForest(formula, data = trainset, ntree = tree_number, mtry = 5, importance = TRUE)
 	  	testset[, 'predict'] <- predict(fit, newdata = testset)
+		#	If you want to plot the variables' importance, please uncomment the following line
 		#varImpPlot(fit, cex = 1, main = project, main.cex = 1)
 	} else if(model == 'cforest') {
 		library(party)

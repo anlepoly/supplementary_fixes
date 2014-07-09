@@ -8,8 +8,8 @@
 - Run "output_data.py" to show statistical results in each project and output metrics to csv files
 - In "output_data.py", you can switch project in line 90. If the project has no sql file, you should set the variable "hasDB" to False.
 - The R code and metrics files are in the folder "csv_data":   
-   "prediction.R" allows you to predict bug reopening with GLM, C5.0, ctree, cforest and randomForest;   
-   "chisq+fisher.R" allows you to check significance between single and multi reopening.
+   "prediction.R" allows you to predict bug reopening with GLM, C5.0, ctree, cforest and randomForest (please set the random seed value before launching the script)
+   "chisq+fisher.R" allows you to check significance between single and multi reopening
 - If you analyse a new project, you should put its commit log file in the "commit_log" folder
    
 #Data format
@@ -27,9 +27,5 @@ Our statistical script can only handle data with the format in our examples, i.e
 - "bugzilla_metrics" folder only contains Webkit's Bugzilla metrics extracted from Bugzilla website (because we don't have Webkit's Bugzilla database)
 - "csv_data" folder contains R code and prediction metrics
 
-#Maintenance
-I will update new data and new version of the scripts
-
 #For any questions
 Please send email to le.an@polymtl.ca
-
