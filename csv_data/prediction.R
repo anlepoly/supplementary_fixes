@@ -5,6 +5,8 @@ library(cvTools)
 set.seed(seedValue)
 
 #	You can switch projects, models, and whether doing the VIF analysis (eg., Eclipse JDT Core, with GLM and without VIF)
+#	Projects: jdt, swt, mozilla, netbeans, webkit ... or your own projects
+#	Models: glm, C50, ctree, cforest, randomForest
 project = 'jdt'
 model = 'glm'
 doVIF = 'NO'

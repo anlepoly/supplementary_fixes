@@ -1,3 +1,4 @@
+# Swith hypothsis test type (chisq or fisher)
 method = 'chisq'
 
 # check significance for Mozilla between single and multi reopening

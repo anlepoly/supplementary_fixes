@@ -80,7 +80,7 @@ def outputCSV():
 
 
 if(__name__ == '__main__'):
-    #   Switch project here
+    #   Switch project here (mozilla, netbeans, jdt, swt, webkit ... or your own projects)
     #   If the project doesn't have an available database, such as Webkit, please set hasDB = False
     project, hasDB = 'netbeans', True
     
