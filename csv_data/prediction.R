@@ -8,8 +8,8 @@ set.seed(seedValue)
 #	Projects: jdt, swt, mozilla, netbeans, webkit ... or your own projects
 #	Models: glm, C50, ctree, cforest, randomForest
 project = 'jdt'
-model = 'glm'
-doVIF = 'NO'
+model = 'randomForest'
+doVIF = 'YES'
 
 #	Initialize tree numbers of Random Forest
 tree_number = 50
@@ -18,8 +18,6 @@ print(project)
 
 #	Read data from the file
 dataset <- as.data.frame(read.csv(file = sprintf('stat/%s_stat.csv', project), header = T))
-#selectedset <- dataset[dataset[, 'invalid'] == 'YES', ]
-selectedset <- dataset
 
 #	Define modelling formula
 xcol <- c('week', 'month', 'hour', 'day', 'commit_size', 'changed_file', 'churn', 'keyword', 'committer_exp', 'reporter_exp', 
@@ -30,13 +28,13 @@ formula <- as.formula(paste('reopened ~ ', paste(xcol, collapse= '+')))
 if(doVIF == 'YES') {
 	library(car)
 	formula <- as.formula(paste('reopened ~ ', paste(xcol, collapse= '+')))
-	fit <- glm(formula, data = selectedset, family = binomial())
+	fit <- glm(formula, data = dataset, family = binomial())
 	print(vif(fit))
 }
 
 #	Separate data into k folds
-k <- 10 	
-folds <- cvFolds(nrow(selectedset), K = 10, type = 'random')
+k <- 10
+folds <- cvFolds(nrow(dataset), K = k, type = 'random')
 
 #	Initialize result values
 tp.sum = tn.sum = fp.sum = fn.sum <- 0
@@ -46,8 +44,8 @@ for(i in 1:k) {
 	trainIndex <- folds$subsets[folds$which != i]	# Extract training index
 	testIndex <- folds$subsets[folds$which == i]	# Extract testing index
 				
-	trainset <- selectedset[trainIndex, ] 			# Set the training set
-  	testset <- selectedset[testIndex, ] 			# Set the validation set	
+	trainset <- dataset[trainIndex, ] 			# Set the training set
+  	testset <- dataset[testIndex, ] 			# Set the validation set	
 	  
   	if(model == 'C50') {
 		library(C50)
@@ -70,8 +68,10 @@ for(i in 1:k) {
 		fit <- ctree(formula, data = trainset)
 		testset[, 'predict'] <- predict(fit, newdata = testset)
 	} else if(model == 'glm') {
-		formula <- as.formula(paste('reopened ~ ', paste(xcol, collapse= '+')))
 		fit <- glm(formula, data = trainset, family = 'binomial')
+		# Avoid GLM's "factor has new levels" error
+		fit$xlevels[["severity"]] <- union(fit$xlevels[["severity"]], levels(testset$severity))
+		fit$xlevels[["platform"]] <- union(fit$xlevels[["platform"]], levels(testset$platform))
 		testset[, 'predict'] <- predict(fit, newdata = testset)
 	}
 	t <- table(observed = testset[, 'reopened'], predicted = testset[, 'predict'])
