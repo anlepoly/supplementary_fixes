@@ -33,8 +33,9 @@ def extractdata(myBugAnalysis):
     return
 
 def optionalOutputData(myBugAnalysis):
-    (shorttimeDic, longtimeDic) = myBugAnalysis.intervalStatistics()
+    '''outputsingle(projectname, bugDic, experienceDic)'''
     myBugAnalysis.commitStatistics()
+    (shorttimeDic, longtimeDic) = myBugAnalysis.intervalStatistics()
     myBugAnalysis.userStatistics()
     return 
 
@@ -58,10 +59,10 @@ def outputdata(myBugAnalysis):
     
     print '\n-', revisionCnt, 'revisions'
     print '-', fixCnt, 'detected bug fixes'
-    print '-', type1Cnt, 'type I fixes', showPercentage(type1Cnt, bugReport)
-    print '-', type2Cnt, 'type II fixes', showPercentage(type2Cnt, fixCnt)
+    print '-', type2Cnt, 'type-II fixes', showPercentage(type2Cnt, fixCnt)
     
     print '\n-', bugReport, 'bugs reports'
+    print '-', type1Cnt, 'type-I bug reports', showPercentage(type1Cnt, bugReport)
     print '-', type2Report, 'type-II bug reports', showPercentage(type2Report, bugReport)
     print '-', reopenedReport, 'reopening bug reports', showPercentage(reopenedReport, bugReport) 
     print '-', singleReopened, 'single re-opened reports'
@@ -70,8 +71,7 @@ def outputdata(myBugAnalysis):
     
     myBugAnalysis.invalidSingleReopened()
 
-    return
-        
+    return   
 
 def outputCSV():
     # Output result of reopened over supplementary    
@@ -82,10 +82,10 @@ def outputCSV():
 if(__name__ == '__main__'):
     #   Switch project here (mozilla, netbeans, jdt, swt, webkit ... or your own projects)
     #   If the project doesn't have an available database, such as Webkit, please set hasDB = False
-    project, hasDB = 'netbeans', True
+    project, hasDB = 'mozilla', True
     
     print 'Analysed project:', project, '\n'    
-    myBugAnalysis = BugAnalysis(project, hasDB)    
+    myBugAnalysis = BugAnalysis(project, hasDB)  
     
     #   Extract data
     dataTuple = extractdata(myBugAnalysis)

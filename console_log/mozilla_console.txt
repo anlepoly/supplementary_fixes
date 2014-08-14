@@ -6,15 +6,15 @@ Computing experience ...
 Writing metrics to csv file ...
 
 - 51500 revisions
-- 32441 detected bug fixes
-- 24429 type I fixes (89.3%)
-- 8012 type II fixes (24.7%)
+- 41227 detected bug fixes
+- 20389 type-II fixes (49.5%)
 
 - 27349 bugs reports
-- 2920 type-II bug reports (10.7%)
+- 20838 type-I bug reports (76.2%)
+- 6511 type-II bug reports (23.8%)
 - 2876 reopening bug reports (10.5%)
-- 1659 single re-opened reports
+- 948 single re-opened reports
 
-- 390 single invalid reports
-- 105 multi invalid reports
-invalid single reopened bugs: 390 (23.508%)
+- 324 single invalid reports
+- 171 multi invalid reports
+invalid single reopened bugs: 324 (34.177%)

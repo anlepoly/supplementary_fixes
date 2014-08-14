@@ -1,6 +1,6 @@
-Project,Type II,Multi Reopened,Reopened in Type II,Single Reopened,Type I in Reopened,Invalid in Single Reopened,Single Invalid,Multi Invalid
-Mozilla,2920,1217,41.7%,1659,57.7%,23.5%,390,105
-Netbeans,3300,1228,37.2%,4453,78.4%,39.4%,1753,278
+Project,"Type II","Multi Reopened","Reopened in Type II","Single Reopened","Type I in Reopened","Invalid in Single Reopened","Single Invalid","Multi Invalid"
+Mozilla,6511,1928,29.6%,948,33%,34.2%,324,171
+Netbeans,7145,2416,33.8%,3265,57.5%,47.1%,1537,494
 JDT,1392,302,21.7%,405,57.3%,37.8%,153,81
-SWT,1496,314,21%,355,53.1%,49.9%,177,91
+SWT,1496,314,21%,355,53.1%,49.1%,177,91
 Webkit,4468,1343,30.1%,968,41.9%,22.8%,880,208

@@ -1,12 +1,11 @@
-# Swith hypothsis test type (chisq or fisher)
 method = 'chisq'
 
 # check significance for Mozilla between single and multi reopening
-mozilla <- as.table(rbind(c(390, 1659-390), c(105, 1217-105)))
+mozilla <- as.table(rbind(c(324, 948-324), c(171, 1928-171)))
 dimnames(mozilla) <- list(occurence = c('single', 'multi'), validity = c('invalid', 'valid'))
 
 # check significance for Netbeans between single and multi reopening
-netbeans <- as.table(rbind(c(1753, 4453-1753), c(278, 1228-278)))
+netbeans <- as.table(rbind(c(1537, 3265-1537), c(494, 2416-494)))
 dimnames(netbeans) <- list(occurence = c('single', 'multi'), validity = c('invalid', 'valid'))
 
 # check significance for JDT Core between single and multi reopening

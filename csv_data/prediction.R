@@ -9,7 +9,7 @@ set.seed(seedValue)
 #	Models: glm, C50, ctree, cforest, randomForest
 project = 'jdt'
 model = 'randomForest'
-doVIF = 'YES'
+doVIF = 'NO'
 
 #	Initialize tree numbers of Random Forest
 tree_number = 50

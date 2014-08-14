@@ -17,7 +17,9 @@ class BugAnalysis():
         self.reporterExpDic = dict()
         self.assigneeExpDic = dict()
         self.reopeningSet = set()
+        
         self.comitterNumber = set()
+        
         self.invalidSet = set()     #   invalid ID set
         self.multiInvalid = set()   #   invalid report set 
         self.singleInvalid = set()  #   invalid report set
@@ -258,11 +260,11 @@ class BugAnalysis():
                 else:
                     #   map a revision number to a bug (with alias number)
                     if(isHg):
-                        ref = re.search(r'\b\w{12}\b', v['comment'], re.IGNORECASE)
+                        ref = re.search(r'\b[a-z0-9]{12}\b', v['comment'])
                         if(ref):
                             aliasID = ref.group(0)
                             if(aliasID in revisionDic):
-                                aliasMatched = True
+                                aliasMatched = True                                
                                 bugID = revisionDic[aliasID]
                                 v['bug'] = bugID
                                 if(not(bugID in self.bugDic)):
@@ -274,9 +276,12 @@ class BugAnalysis():
                     if(aliasMatched == False):
                         bugID = v['bug']
                         vlist = self.bugDic[bugID]
-                        vlist.append(v)                       
+                        vlist.append(v)
+                    else:
+                        aliasMatched = False                  
+        
         #   Revmove invalid IDs
-        self.removeInvalidID()   
+        self.removeInvalidID()
         return self.bugDic
 
     #   Count bugs and supplementary fixes in total
@@ -343,46 +348,44 @@ class BugAnalysis():
 
     #   Time interval statistics
     def intervalStatistics(self):
-        shorttimeDic, longtimeDic = dict(), dict()
+        shorttimeSet, longtimeSet = set(), set()
         maxDay = 0
+        maxBugID = ''
         dayList = list()
+        dayDic = dict()
         for bugID in self.bugDic:
             vlist = self.bugDic[bugID]
-            if(len(vlist) > 1):
-                minTime = vlist[0]['time']
-                maxTime = vlist[0]['time']
-                for v in vlist:
-                    if(v['time'] < minTime):
-                        minTime = v['time']
-                    if(v['time'] > maxTime):
-                        maxTime = v['time']
-                interval = self.computeInterval(vlist)
-                day = int(interval/24)
-                dayList.append(day)
-                if(day > maxDay):
-                    maxDay = day
-                if(interval < 24):
-                    shorttimeDic[bugID] = v
-                else:
-                    longtimeDic[bugID] = v
+            interval = self.computeInterval(vlist)
+            day = int(interval/24)
+            dayList.append(day)
+            dayDic[day] = bugID
+            if(day > maxDay):
+                maxDay = day
+                maxBugID = bugID
+            if(interval < 24):
+                shorttimeSet.add(bugID)
+            else:
+                longtimeSet.add(bugID)
     
         shortReopening = longReopening = 0
-        for bugID in shorttimeDic:
+        for bugID in shorttimeSet:
             if(bugID in self.reopeningSet):
                 shortReopening += 1
-        for bugID in longtimeDic:
+        for bugID in longtimeSet:
             if(bugID in self.reopeningSet):
                 longReopening += 1
         
         print ''
-        statSet = set(dayList)
-        for item in statSet:
-            print item, showPercentage(dayList.count(item), len(dayList))        
-        print 'max fixing day', maxDay
-        print len(shorttimeDic), 'suppl. fixes within 24hrs, where', shortReopening, 'reopened bugs', showPercentage(shortReopening, len(shorttimeDic))
-        print len(longtimeDic), 'suppl. fixes more than 24hrs, where', longReopening, 'reopened bugs', showPercentage(longReopening, len(longtimeDic))
+        #statSet = set(dayList)
+        #for item in statSet:
+        #    print item, showPercentage(dayList.count(item), len(dayList))
+        for key in sorted(dayDic):
+            print key, 'ID:'+dayDic[key], showPercentage(dayList.count(key), len(dayList))       
+        print 'max fixing day', maxDay, '(ID: ' + maxBugID + ')'
+        print len(shorttimeSet), 'suppl. fixes within 24hrs, where', shortReopening, 'reopened bugs', showPercentage(shortReopening, len(shorttimeSet))
+        print len(longtimeSet), 'suppl. fixes more than 24hrs, where', longReopening, 'reopened bugs', showPercentage(longReopening, len(longtimeSet))
                 
-        return (shorttimeDic, longtimeDic)
+        return (shorttimeSet, longtimeSet)
 
 
     #   Commit times statistics
@@ -390,12 +393,16 @@ class BugAnalysis():
         fewDic ,manyDic = dict(), dict()
         fewReopening = manyReopening = 0
         maxCommitCnt = 0
-        statList = list()
+        maxBugID = ''
+        attemptList = list()
+        attemptDic = dict()
         for bugID in self.bugDic:
             vlist = self.bugDic[bugID]
-            statList.append(len(vlist))
+            attemptList.append(len(vlist))
+            attemptDic[len(vlist)] = bugID
             if(len(vlist) > maxCommitCnt):
                 maxCommitCnt = len(vlist)
+                maxBugID = bugID
             if(len(vlist) < 4):
                 fewDic[bugID] = True
                 if(bugID in self.reopeningSet):
@@ -405,10 +412,12 @@ class BugAnalysis():
                 if(bugID in self.reopeningSet):
                     manyReopening += 1
         print ''
-        statSet = set(statList)
-        for item in statSet:
-            print item, showPercentage(statList.count(item), len(statList))
-        print 'the max number of commit', maxCommitCnt
+        #statSet = set(statList)
+        #for item in statSet:
+        #    print item, showPercentage(statList.count(item), len(statList))
+        for key in sorted(attemptDic):
+            print key, 'ID:'+attemptDic[key], showPercentage(attemptList.count(key), len(attemptList))
+        print 'the max number of commit', maxCommitCnt, '(ID: ' + maxBugID + ')'
         print len(fewDic), 'fixes within 3 times, where', fewReopening, 'reopened bugs', showPercentage(fewReopening, len(fewDic))
         print len(manyDic), 'fixes more than 3 times, where', manyReopening, 'reopened bugs', showPercentage(manyReopening ,len(manyDic))
         return
@@ -593,7 +602,6 @@ class BugAnalysis():
                     attemptCnt += 1
         return
 
-    #   Show invalid-single reopening's number and percentage 
     def invalidSingleReopened(self):
         invalidSingleCnt = 0
         for bugID in self.bugDic:
@@ -601,7 +609,6 @@ class BugAnalysis():
                 invalidSingleCnt += 1
         print 'invalid single reopened bugs:', invalidSingleCnt, showPercentage(invalidSingleCnt, len(self.singleReopened))
         return
-
-#   Show percentage        
+        
 def showPercentage(a, b):
     return '(' + str(round(a/b*100, 3)) + '%' + ')'

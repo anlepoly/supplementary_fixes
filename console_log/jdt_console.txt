@@ -7,10 +7,10 @@ Writing metrics to csv file ...
 
 - 18099 revisions
 - 7744 detected bug fixes
-- 3784 type I fixes (73.1%)
-- 3960 type II fixes (51.1%)
+- 3960 type-II fixes (51.1%)
 
 - 5176 bugs reports
+- 3784 type-I bug reports (73.1%)
 - 1392 type-II bug reports (26.9%)
 - 707 reopening bug reports (13.7%)
 - 405 single re-opened reports
