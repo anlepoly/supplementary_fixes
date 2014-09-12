@@ -4,7 +4,7 @@
 - MySQL
 
 #File description
-- "output_data.py" is used to extract metrics from VCS and Bugzilla repositories, analyse data and output prediction metrics. It should work with "extract_data.py" (i.e., the two script should be put in the same path).
+- "output_data.py" is used to extract metrics from VCS and Bugzilla repositories, analyse data and output prediction metrics. It should work with "extract_data.py" (i.e., the two scripts should be put under the same path).
 - "commit_log" folder contains commit logs for all five studied projects.
 - "bugzilla_metrics" folder only contains Webkit's Bugzilla metrics extracted from Bugzilla website (because we don't have Webkit's Bugzilla database).
 - "csv_data" folder contains R code and prediction metrics.  
