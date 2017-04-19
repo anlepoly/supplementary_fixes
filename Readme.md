@@ -1,9 +1,9 @@
-#Requirements
+# Requirements
 - Python 2.7 or newer
 - R 3.1 or newer
 - MySQL
 
-#File description
+### File description
 - "output_data.py" is used to extract metrics from VCS and Bugzilla repositories, analyse data and output prediction metrics. It should work with "extract_data.py" (i.e., the two scripts should be put under the same path).
 - "commit_log" folder contains commit logs for all five studied projects.
 - "bugzilla_metrics" folder only contains Webkit's Bugzilla metrics extracted from Bugzilla website (because we don't have Webkit's Bugzilla database).
@@ -11,7 +11,7 @@
 - "console_log" folder provides the console logs of the script "output_data.py" for each project.
 - "detailed_statistics" provides the statistics of single/multi reopened, and invalid reports.
 
-#How to use the script
+### How to use the script
 - First of all, please set your database's host, user and password (**in line 41 of "extract_data.py"**).
 - Run "output_data.py" to show statistical results in each project and output metrics to csv files.
 - In "output_data.py", you can switch projects **by line 85**. If the project has no sql file, you should set the variable "hasDB" to False.
@@ -20,7 +20,7 @@
    2. "chisq+fisher.R" allows you to check significance between single and multi reopening
 - If you analyse a new project, please put its commit log file in the "commit_log" folder.
    
-#Data format
+### Data format
 Our statistical script can only handle data with the format in our examples (in the folder "commit_log"), i.e.:
 - If you use a new git project:     
    1. please output its commit log by this command:  
@@ -30,5 +30,5 @@ Our statistical script can only handle data with the format in our examples (in 
    1. please output churn and changed files information    
    2. the commit log file should not contain any blank line
 
-#For any questions
+### For any questions
 Please send email to le.an@polymtl.ca
